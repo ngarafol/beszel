@@ -126,6 +126,7 @@ func (a *Agent) getSystemStats() system.Stats {
 				systemStats.DiskTotal = bytesToGigabytes(d.Total)
 				systemStats.DiskUsed = bytesToGigabytes(d.Used)
 				systemStats.DiskPct = twoDecimals(d.UsedPercent)
+				systemStats.InodePct = twoDecimals(d.InodesUsedPercent)
 			}
 		} else {
 			// reset stats if error (likely unmounted)
@@ -263,6 +264,7 @@ func (a *Agent) getSystemStats() system.Stats {
 	a.systemInfo.LoadAvg15 = systemStats.LoadAvg[2]
 	a.systemInfo.MemPct = systemStats.MemPct
 	a.systemInfo.DiskPct = systemStats.DiskPct
+	a.systeminfo.InodePct = systemStats.InodePct
 	a.systemInfo.Uptime, _ = host.Uptime()
 	// TODO: in future release, remove MB bandwidth values in favor of bytes
 	a.systemInfo.Bandwidth = twoDecimals(systemStats.NetworkSent + systemStats.NetworkRecv)

@@ -23,9 +23,10 @@ func TestSessionCache_GetSet(t *testing.T) {
 				Cores:    4,
 			},
 			Stats: system.Stats{
-				Cpu:     50.0,
-				MemPct:  30.0,
-				DiskPct: 40.0,
+				Cpu:      50.0,
+				MemPct:   30.0,
+				DiskPct:  40.0,
+				InodePct: 50.0,
 			},
 		}
 
@@ -47,6 +48,7 @@ func TestSessionCache_GetSet(t *testing.T) {
 		assert.Equal(t, 50.0, data.Stats.Cpu, "CPU should match test data")
 		assert.Equal(t, 30.0, data.Stats.MemPct, "Memory percentage should match test data")
 		assert.Equal(t, 40.0, data.Stats.DiskPct, "Disk percentage should match test data")
+		assert.Equal(t, 50.0, data.Stats.InodePct, "Inode percentage should match test data")
 
 		time.Sleep(10 * time.Second)
 

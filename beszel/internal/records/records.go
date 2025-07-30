@@ -199,6 +199,7 @@ func (rm *RecordManager) AverageSystemStats(db dbx.Builder, records RecordIds) *
 		sum.DiskTotal += stats.DiskTotal
 		sum.DiskUsed += stats.DiskUsed
 		sum.DiskPct += stats.DiskPct
+		sum.InodePct += stats.InodePct
 		sum.DiskReadPs += stats.DiskReadPs
 		sum.DiskWritePs += stats.DiskWritePs
 		sum.NetworkSent += stats.NetworkSent
@@ -281,6 +282,7 @@ func (rm *RecordManager) AverageSystemStats(db dbx.Builder, records RecordIds) *
 		sum.DiskTotal = twoDecimals(sum.DiskTotal / count)
 		sum.DiskUsed = twoDecimals(sum.DiskUsed / count)
 		sum.DiskPct = twoDecimals(sum.DiskPct / count)
+		sum.InodePct = twoDecimals(sum.InodePct / count)
 		sum.DiskReadPs = twoDecimals(sum.DiskReadPs / count)
 		sum.DiskWritePs = twoDecimals(sum.DiskWritePs / count)
 		sum.NetworkSent = twoDecimals(sum.NetworkSent / count)

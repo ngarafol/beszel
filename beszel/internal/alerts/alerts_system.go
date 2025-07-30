@@ -48,6 +48,15 @@ func (am *AlertManager) HandleSystemAlerts(systemRecord *core.Record, data *syst
 				}
 			}
 			val = maxUsedPct
+		case "Inodes":
+			maxInodesPct := data.Info.InodePct
+			for _, fs := range data.Stats.ExtraFs {
+				InodesUsedPct := fs.DiskInodesUsedPercent / fs.InodesTotal * 100
+				if usedPct > maxUsedPct {
+					maxUsedPct = usedPct
+				}
+			}
+			val = maxUsedPct
 		case "Temperature":
 			if data.Info.DashboardTemp < 1 {
 				continue
@@ -189,6 +198,22 @@ func (am *AlertManager) HandleSystemAlerts(systemRecord *core.Record, data *syst
 					}
 					alert.mapSums[key] += float32(fs.DiskUsed / fs.DiskTotal * 100)
 				}
+			case "Inodes":
+				if alert.mapSums == nil {
+					alert.mapSums = make(map[string]float32, len(data.Stats.ExtraFs)+1)
+				}
+				// add root disk
+				if _, ok := alert.mapSums["root"]; !ok {
+					alert.mapSums["root"] = 0.0
+				}
+				alert.mapSums["root"] += float32(stats.Disk)
+				// add extra disks
+				for key, fs := range data.Stats.ExtraFs {
+					if _, ok := alert.mapSums[key]; !ok {
+						alert.mapSums[key] = 0.0
+					}
+					alert.mapSums[key] += float32(fs.InodesUsed / fs.InodesTotal * 100)
+				}
 			case "Temperature":
 				if alert.mapSums == nil {
 					alert.mapSums = make(map[string]float32, len(stats.Temperatures))
@@ -220,6 +245,16 @@ func (am *AlertManager) HandleSystemAlerts(systemRecord *core.Record, data *syst
 				sumPct := float32(value)
 				if sumPct > maxPct {
 					maxPct = sumPct
+					alert.descriptor = fmt.Sprintf("Usage of %s", key)
+				}
+			}
+			alert.val = float64(maxPct / float32(alert.count))
+		case "Inodes":
+			maxInodes := float32(0)
+			for key, value := range alert.mapSums {
+				sumInodes := float32(value)
+				if sumInodes > maxInodes {
+					maxInodes = sumInodes
 					alert.descriptor = fmt.Sprintf("Usage of %s", key)
 				}
 			}

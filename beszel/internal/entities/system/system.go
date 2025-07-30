@@ -20,23 +20,24 @@ type Stats struct {
 	DiskTotal      float64             `json:"d" cbor:"9,keyasint"`
 	DiskUsed       float64             `json:"du" cbor:"10,keyasint"`
 	DiskPct        float64             `json:"dp" cbor:"11,keyasint"`
-	DiskReadPs     float64             `json:"dr" cbor:"12,keyasint"`
-	DiskWritePs    float64             `json:"dw" cbor:"13,keyasint"`
-	MaxDiskReadPs  float64             `json:"drm,omitempty" cbor:"14,keyasint,omitempty"`
-	MaxDiskWritePs float64             `json:"dwm,omitempty" cbor:"15,keyasint,omitempty"`
-	NetworkSent    float64             `json:"ns" cbor:"16,keyasint"`
-	NetworkRecv    float64             `json:"nr" cbor:"17,keyasint"`
-	MaxNetworkSent float64             `json:"nsm,omitempty" cbor:"18,keyasint,omitempty"`
-	MaxNetworkRecv float64             `json:"nrm,omitempty" cbor:"19,keyasint,omitempty"`
-	Temperatures   map[string]float64  `json:"t,omitempty" cbor:"20,keyasint,omitempty"`
-	ExtraFs        map[string]*FsStats `json:"efs,omitempty" cbor:"21,keyasint,omitempty"`
-	GPUData        map[string]GPUData  `json:"g,omitempty" cbor:"22,keyasint,omitempty"`
-	LoadAvg1       float64             `json:"l1,omitempty" cbor:"23,keyasint,omitempty"`
-	LoadAvg5       float64             `json:"l5,omitempty" cbor:"24,keyasint,omitempty"`
-	LoadAvg15      float64             `json:"l15,omitempty" cbor:"25,keyasint,omitempty"`
-	Bandwidth      [2]uint64           `json:"b,omitzero" cbor:"26,keyasint,omitzero"`  // [sent bytes, recv bytes]
-	MaxBandwidth   [2]uint64           `json:"bm,omitzero" cbor:"27,keyasint,omitzero"` // [sent bytes, recv bytes]
-	LoadAvg        [3]float64          `json:"la,omitempty" cbor:"28,keyasint"`
+	InodePct	   float64			   `json:"dp" cbor:"12,keyasint"`
+	DiskReadPs     float64             `json:"dr" cbor:"13,keyasint"`
+	DiskWritePs    float64             `json:"dw" cbor:"14,keyasint"`
+	MaxDiskReadPs  float64             `json:"drm,omitempty" cbor:"15,keyasint,omitempty"`
+	MaxDiskWritePs float64             `json:"dwm,omitempty" cbor:"16,keyasint,omitempty"`
+	NetworkSent    float64             `json:"ns" cbor:"17,keyasint"`
+	NetworkRecv    float64             `json:"nr" cbor:"18,keyasint"`
+	MaxNetworkSent float64             `json:"nsm,omitempty" cbor:"19,keyasint,omitempty"`
+	MaxNetworkRecv float64             `json:"nrm,omitempty" cbor:"20,keyasint,omitempty"`
+	Temperatures   map[string]float64  `json:"t,omitempty" cbor:"21,keyasint,omitempty"`
+	ExtraFs        map[string]*FsStats `json:"efs,omitempty" cbor:"22,keyasint,omitempty"`
+	GPUData        map[string]GPUData  `json:"g,omitempty" cbor:"23,keyasint,omitempty"`
+	LoadAvg1       float64             `json:"l1,omitempty" cbor:"24,keyasint,omitempty"`
+	LoadAvg5       float64             `json:"l5,omitempty" cbor:"25,keyasint,omitempty"`
+	LoadAvg15      float64             `json:"l15,omitempty" cbor:"26,keyasint,omitempty"`
+	Bandwidth      [2]uint64           `json:"b,omitzero" cbor:"27,keyasint,omitzero"`  // [sent bytes, recv bytes]
+	MaxBandwidth   [2]uint64           `json:"bm,omitzero" cbor:"28,keyasint,omitzero"` // [sent bytes, recv bytes]
+	LoadAvg        [3]float64          `json:"la,omitempty" cbor:"29,keyasint"`
 	// TODO: remove other load fields in future release in favor of load avg array
 }
 
@@ -62,6 +63,9 @@ type FsStats struct {
 	DiskWritePs    float64   `json:"w" cbor:"3,keyasint"`
 	MaxDiskReadPS  float64   `json:"rm,omitempty" cbor:"4,keyasint,omitempty"`
 	MaxDiskWritePS float64   `json:"wm,omitempty" cbor:"5,keyasint,omitempty"`
+	DiskInodesUsedPercent float64    `json:"uip" cbor:"6,keyasint"`
+	InodesTotal	   uint64    `json:"ut" cbor:"7,keyasint"`
+
 }
 
 type NetIoStats struct {
@@ -90,17 +94,18 @@ type Info struct {
 	Cpu            float64    `json:"cpu" cbor:"6,keyasint"`
 	MemPct         float64    `json:"mp" cbor:"7,keyasint"`
 	DiskPct        float64    `json:"dp" cbor:"8,keyasint"`
-	Bandwidth      float64    `json:"b" cbor:"9,keyasint"`
-	AgentVersion   string     `json:"v" cbor:"10,keyasint"`
-	Podman         bool       `json:"p,omitempty" cbor:"11,keyasint,omitempty"`
-	GpuPct         float64    `json:"g,omitempty" cbor:"12,keyasint,omitempty"`
-	DashboardTemp  float64    `json:"dt,omitempty" cbor:"13,keyasint,omitempty"`
-	Os             Os         `json:"os" cbor:"14,keyasint"`
-	LoadAvg1       float64    `json:"l1,omitempty" cbor:"15,keyasint,omitempty"`
-	LoadAvg5       float64    `json:"l5,omitempty" cbor:"16,keyasint,omitempty"`
-	LoadAvg15      float64    `json:"l15,omitempty" cbor:"17,keyasint,omitempty"`
-	BandwidthBytes uint64     `json:"bb" cbor:"18,keyasint"`
-	LoadAvg        [3]float64 `json:"la,omitempty" cbor:"19,keyasint"`
+	InodePct	   float64    `json:"ip" cbor:"9,keyasint"`
+	Bandwidth      float64    `json:"b" cbor:"10,keyasint"`
+	AgentVersion   string     `json:"v" cbor:"11,keyasint"`
+	Podman         bool       `json:"p,omitempty" cbor:"12,keyasint,omitempty"`
+	GpuPct         float64    `json:"g,omitempty" cbor:"13,keyasint,omitempty"`
+	DashboardTemp  float64    `json:"dt,omitempty" cbor:"14,keyasint,omitempty"`
+	Os             Os         `json:"os" cbor:"15,keyasint"`
+	LoadAvg1       float64    `json:"l1,omitempty" cbor:"16,keyasint,omitempty"`
+	LoadAvg5       float64    `json:"l5,omitempty" cbor:"17,keyasint,omitempty"`
+	LoadAvg15      float64    `json:"l15,omitempty" cbor:"18,keyasint,omitempty"`
+	BandwidthBytes uint64     `json:"bb" cbor:"19,keyasint"`
+	LoadAvg        [3]float64 `json:"la,omitempty" cbor:"20,keyasint"`
 	// TODO: remove load fields in future release in favor of load avg array
 }
 

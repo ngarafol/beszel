@@ -548,6 +548,7 @@ func createTestCombinedData() *system.CombinedData {
 			DiskTotal: 1099511627776, // 1TB
 			DiskUsed:  549755813888,  // 512GB
 			DiskPct:   50.0,
+			InodePct:  50.0,
 		},
 		Info: system.Info{
 			Hostname:     "test-host",
