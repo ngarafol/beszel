@@ -264,7 +264,7 @@ func (a *Agent) getSystemStats() system.Stats {
 	a.systemInfo.LoadAvg15 = systemStats.LoadAvg[2]
 	a.systemInfo.MemPct = systemStats.MemPct
 	a.systemInfo.DiskPct = systemStats.DiskPct
-	a.systeminfo.InodePct = systemStats.InodePct
+	a.systemInfo.InodePct = systemStats.InodePct
 	a.systemInfo.Uptime, _ = host.Uptime()
 	// TODO: in future release, remove MB bandwidth values in favor of bytes
 	a.systemInfo.Bandwidth = twoDecimals(systemStats.NetworkSent + systemStats.NetworkRecv)
