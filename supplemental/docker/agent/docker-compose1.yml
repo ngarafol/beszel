@@ -1,0 +1,13 @@
+services:
+  beszel-agent:
+    image: 'test_agent:latest'
+    container_name: 'beszel-agent'
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # monitor other disks / partitions by mounting a folder in /extra-filesystems
+      # - /mnt/disk/.beszel:/extra-filesystems/sda1:ro
+    environment:
+      PORT: 45876
+      KEY: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1aWuqmZZ1NZ9lhkKxsvheNoSJOeYoFtralVa0AQqrC9Nw4ulGinltACZlE39rXrEDWz1K9ZtGYtPCQEUcpc1XgiDLVRhlR/PDo8wjzL7j1JWG4AZmFU07g+m2lgSp9R3muNPjYCNrUQGZy+HXADnTSolZ9SjFE3wvCFp+imqF9Vk07+WFupps30KO1kF/ZLviedTs9gWTUnArHYMl7QN+pcVeHMd5ZTrbF2egU0+1VcmClfkYUjXGu+YrWQIPhva02ehLeExiti5RHxyvx3wy8jbaVctZSf0Y93/1tk7t4cS23fIMI/wSwM0Z2AWT4lImSUftXexlW/+jmTxuAElX'

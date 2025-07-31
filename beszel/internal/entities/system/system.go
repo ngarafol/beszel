@@ -65,6 +65,7 @@ type FsStats struct {
 	MaxDiskWritePS float64   `json:"wm,omitempty" cbor:"5,keyasint,omitempty"`
 	DiskInodesUsedPercent float64    `json:"uip" cbor:"6,keyasint"`
 	InodesTotal	   uint64    `json:"ut" cbor:"7,keyasint"`
+	InodesUsed	   uint64    `json:"uu" cbor:"8,keyasint"`
 
 }
 

@@ -51,12 +51,12 @@ func (am *AlertManager) HandleSystemAlerts(systemRecord *core.Record, data *syst
 		case "Inodes":
 			maxInodesPct := data.Info.InodePct
 			for _, fs := range data.Stats.ExtraFs {
-				InodesUsedPct := fs.DiskInodesUsedPercent / fs.InodesTotal * 100
-				if usedPct > maxUsedPct {
-					maxUsedPct = usedPct
+				InodesUsedPct := fs.DiskInodesUsedPercent
+				if InodesUsedPct > maxInodesPct {
+					maxInodesPct = InodesUsedPct
 				}
 			}
-			val = maxUsedPct
+			val = maxInodesPct
 		case "Temperature":
 			if data.Info.DashboardTemp < 1 {
 				continue
@@ -258,7 +258,7 @@ func (am *AlertManager) HandleSystemAlerts(systemRecord *core.Record, data *syst
 					alert.descriptor = fmt.Sprintf("Usage of %s", key)
 				}
 			}
-			alert.val = float64(maxPct / float32(alert.count))
+			alert.val = float64(maxInodes / float32(alert.count))
 		case "Temperature":
 			maxTemp := float32(0)
 			for key, value := range alert.mapSums {
