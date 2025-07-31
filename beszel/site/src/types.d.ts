@@ -60,6 +60,8 @@ export interface SystemInfo {
 	mp: number
 	/** disk percent */
 	dp: number
+	/** inode percent */
+	ip: number	
 	/** bandwidth (mb) */
 	b: number
 	/** bandwidth bytes */
@@ -118,6 +120,10 @@ export interface SystemStats {
 	drm?: number
 	/** max disk write (mb) */
 	dwm?: number
+	/** inodes used (gb) */
+	iu: number
+	/** inodes percent */
+	ip: number
 	/** network sent (mb) */
 	ns: number
 	/** network received (mb) */
